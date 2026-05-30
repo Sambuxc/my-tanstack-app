@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
 
+import { sentryTanstackStart } from "@sentry/tanstackstart-react/vite";
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 
 import viteReact from '@vitejs/plugin-react'
@@ -16,6 +17,11 @@ const config = defineConfig({
     cloudflare({ viteEnvironment: { name: 'ssr' } }),
     tailwindcss(),
     tanstackStart(),
+    sentryTanstackStart({
+      org: "lib-tech",
+      project: "javascript-tanstackstart-react",
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+    }),
     viteReact(),
   ],
 })

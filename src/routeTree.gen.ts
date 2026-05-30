@@ -13,6 +13,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DemoPrismaRouteImport } from './routes/demo/prisma'
 import { Route as DemoNeonRouteImport } from './routes/demo/neon'
+import { Route as ApiSentryExampleApiRouteImport } from './routes/api/sentry-example-api'
 import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.testing'
 
 const AboutRoute = AboutRouteImport.update({
@@ -35,6 +36,11 @@ const DemoNeonRoute = DemoNeonRouteImport.update({
   path: '/demo/neon',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSentryExampleApiRoute = ApiSentryExampleApiRouteImport.update({
+  id: '/api/sentry-example-api',
+  path: '/api/sentry-example-api',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoSentryTestingRoute = DemoSentryTestingRouteImport.update({
   id: '/demo/sentry/testing',
   path: '/demo/sentry/testing',
@@ -44,6 +50,7 @@ const DemoSentryTestingRoute = DemoSentryTestingRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/api/sentry-example-api': typeof ApiSentryExampleApiRoute
   '/demo/neon': typeof DemoNeonRoute
   '/demo/prisma': typeof DemoPrismaRoute
   '/demo/sentry/testing': typeof DemoSentryTestingRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/api/sentry-example-api': typeof ApiSentryExampleApiRoute
   '/demo/neon': typeof DemoNeonRoute
   '/demo/prisma': typeof DemoPrismaRoute
   '/demo/sentry/testing': typeof DemoSentryTestingRoute
@@ -59,6 +67,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/api/sentry-example-api': typeof ApiSentryExampleApiRoute
   '/demo/neon': typeof DemoNeonRoute
   '/demo/prisma': typeof DemoPrismaRoute
   '/demo/sentry/testing': typeof DemoSentryTestingRoute
@@ -68,15 +77,23 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/api/sentry-example-api'
     | '/demo/neon'
     | '/demo/prisma'
     | '/demo/sentry/testing'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/demo/neon' | '/demo/prisma' | '/demo/sentry/testing'
+  to:
+    | '/'
+    | '/about'
+    | '/api/sentry-example-api'
+    | '/demo/neon'
+    | '/demo/prisma'
+    | '/demo/sentry/testing'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/api/sentry-example-api'
     | '/demo/neon'
     | '/demo/prisma'
     | '/demo/sentry/testing'
@@ -85,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ApiSentryExampleApiRoute: typeof ApiSentryExampleApiRoute
   DemoNeonRoute: typeof DemoNeonRoute
   DemoPrismaRoute: typeof DemoPrismaRoute
   DemoSentryTestingRoute: typeof DemoSentryTestingRoute
@@ -120,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoNeonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/sentry-example-api': {
+      id: '/api/sentry-example-api'
+      path: '/api/sentry-example-api'
+      fullPath: '/api/sentry-example-api'
+      preLoaderRoute: typeof ApiSentryExampleApiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/sentry/testing': {
       id: '/demo/sentry/testing'
       path: '/demo/sentry/testing'
@@ -133,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ApiSentryExampleApiRoute: ApiSentryExampleApiRoute,
   DemoNeonRoute: DemoNeonRoute,
   DemoPrismaRoute: DemoPrismaRoute,
   DemoSentryTestingRoute: DemoSentryTestingRoute,
@@ -142,10 +168,11 @@ export const routeTree = rootRouteImport
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
+import type { startInstance } from './start.ts'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }

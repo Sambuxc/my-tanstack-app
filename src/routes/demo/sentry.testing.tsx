@@ -298,6 +298,25 @@ function RouteComponent() {
 
   const handleClientError = async () => {
     setIsLoading((prev) => ({ ...prev, clientError: true }))
+
+    // Send a test metric before throwing the error
+    // Sentry.metrics.count('test_counter', 1);
+    // throw new Error("Sentry Test Error");
+
+    // Send a test transaction with a span, to demonstrate performance monitoring
+    // await Sentry.startSpan(
+    //     {
+    //       name: "Example Frontend Span",
+    //       op: "test",
+    //     },
+    //     async () => {
+    //       const res = await fetch("/api/sentry-example-api");
+    //       if (!res.ok) {
+    //         throw new Error("Sentry Example Frontend Error");
+    //       }
+    //     },
+    // );
+
     try {
       await Sentry.startSpan(
         { name: 'Client Error Flow Demo', op: 'demo.client-error' },
