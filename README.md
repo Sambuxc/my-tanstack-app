@@ -182,6 +182,13 @@ function PeopleComponent() {
 
 Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
 
+## Sentry
+Sentry is a powerful error tracking service that helps you identify and fix bugs faster.
+https://docs.sentry.io/platforms/javascript/guides/tanstackstart-react/
+
+- Installation instructions:
+https://lib-tech.sentry.io/onboarding/setup-docs/?product=error-monitoring&product=logs&product=session-replay&product=performance-monitoring&product=metrics
+
 # Demo files
 
 Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
